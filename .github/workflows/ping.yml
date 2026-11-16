@@ -2,6 +2,8 @@ name: ping
 # Started every 5 minutes by cron-job.org (workflow_dispatch via the GitHub API).
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '*/10 * * * *'   # fallback only; GitHub schedule is best-effort
 concurrency:
   group: ping
   cancel-in-progress: false

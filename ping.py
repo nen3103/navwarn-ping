@@ -7,7 +7,7 @@ Sources (public pages, light requests only):
   - NGA HYDROPAC in-force text (msi.nga.mil)
 
 State: seen.json (IDs already seen). Nothing else is stored here.
-Secrets: DISPATCH_TOKEN (fine-grained token, Contents: read & write on the target repo), TARGET_REPO (owner/name).
+Secrets: DISPATCH_TOKEN (fine-grained token, Actions: read & write on the target repo), TARGET_REPO (owner/name).
 """
 import hashlib, json, os, re, sys, urllib.parse, urllib.request
 from concurrent.futures import ThreadPoolExecutor
@@ -76,8 +76,8 @@ def dispatch(n):
     if not (tok and repo):
         print('no DISPATCH_TOKEN/TARGET_REPO; not dispatching', file=sys.stderr)
         return False
-    req = urllib.request.Request(f'https://api.github.com/repos/{repo}/dispatches',
-                                 data=json.dumps({'event_type': 'msa-new', 'client_payload': {'n': n}}).encode(),
+    req = urllib.request.Request(f'https://api.github.com/repos/{repo}/actions/workflows/watch.yml/dispatches',
+                                 data=json.dumps({'ref': 'main', 'inputs': {'send': 'true'}}).encode(),
                                  headers={'Authorization': f'Bearer {tok}', 'Accept': 'application/vnd.github+json',
                                           'User-Agent': UA}, method='POST')
     return urllib.request.urlopen(req, timeout=30).status == 204
