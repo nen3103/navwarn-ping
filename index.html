@@ -95,6 +95,8 @@ footer { margin-top: 20px; color: var(--muted); font-size: .75rem; }
   var btns = Array.prototype.slice.call(document.querySelectorAll(".bar button"));
   var current = "";
   var PAGE = 20, limit = PAGE;
+  try { limit = Math.max(PAGE, parseInt(sessionStorage.getItem("apec-limit"), 10) || PAGE); } catch (e) {}
+  function saveLimit() { try { sessionStorage.setItem("apec-limit", String(limit)); } catch (e) {} }
   var moreBtn = document.getElementById("more");
   try { current = localStorage.getItem("apec-filter") || ""; } catch (e) {}
   function el(tag, cls, text) { var x = document.createElement(tag); if (cls) x.className = cls; if (text != null) x.textContent = text; return x; }
@@ -134,12 +136,12 @@ footer { margin-top: 20px; color: var(--muted); font-size: .75rem; }
   btns.forEach(function (bt) {
     bt.addEventListener("click", function () {
       current = bt.getAttribute("data-c");
-      limit = PAGE;
+      limit = PAGE; saveLimit();
       try { localStorage.setItem("apec-filter", current); } catch (e) {}
       render();
     });
   });
-  moreBtn.addEventListener("click", function () { limit += PAGE; render(); });
+  moreBtn.addEventListener("click", function () { limit += PAGE; saveLimit(); render(); });
   render();
 })();
 </script>
