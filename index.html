@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta http-equiv="refresh" content="60">
+<style>html{color-scheme:light}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}[hidden]{display:none!important}</style>
+<title>深圳APEC速報</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: one wire column; a sticky filter bar; each item = time rail + body. */
+:root {
+  --bg: #f6f7f8; --surface: #ffffff; --fg: #17191c; --muted: #5d636b; --line: #dde1e5;
+  --accent: #b3261e;
+  --ru: #2f5fa8; --us: #8a3b9e; --kr: #1e7f6a; --jp: #b3261e; --cn: #a46a00;
+  --sans: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #121416; --surface: #1a1d20; --fg: #e8eaed; --muted: #9aa1a9; --line: #2c3136;
+  --accent: #ef6b62; --ru: #7ea6e6; --us: #c98bdb; --kr: #5fc3a9; --jp: #ef6b62; --cn: #e0a93a; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #121416; --surface: #1a1d20; --fg: #e8eaed; --muted: #9aa1a9; --line: #2c3136;
+  --accent: #ef6b62; --ru: #7ea6e6; --us: #c98bdb; --kr: #5fc3a9; --jp: #ef6b62; --cn: #e0a93a; color-scheme: dark }
+body { background: var(--bg); color: var(--fg); font-family: var(--sans); line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.wrap { max-width: 760px; margin: 0 auto; padding-block: 20px 48px; }
+header h1 { margin: 0; font-size: 1.35rem; font-weight: 700; letter-spacing: .02em; text-wrap: balance; }
+header p { margin: 4px 0 0; color: var(--muted); font-size: .82rem; }
+.live { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); font-weight: 700; font-size: .75rem; letter-spacing: .08em; }
+.live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg);
+  display: flex; flex-wrap: wrap; gap: 8px; padding-block: 12px; margin-top: 12px; border-bottom: 1px solid var(--line); }
+.bar button { font: inherit; font-size: .85rem; padding: 4px 14px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--surface); color: var(--fg); }
+.bar button[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.bar button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.bar .n { font-family: var(--mono); font-size: .75rem; opacity: .7; margin-left: 4px; }
+ol { list-style: none; margin: 0; padding: 0; }
+li.item { display: grid; grid-template-columns: 64px 1fr; gap: 12px; padding-block: 14px; border-bottom: 1px solid var(--line); }
+.time { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: .9rem; color: var(--muted); padding-top: 2px; }
+.body { min-width: 0; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 4px; font-size: .75rem; }
+.tag { font-weight: 700; padding: 0 8px; border-radius: 4px; border: 1px solid currentColor; }
+.tag.露 { color: var(--ru); } .tag.米 { color: var(--us); } .tag.韓 { color: var(--kr); } .tag.日 { color: var(--jp); } .tag.中 { color: var(--cn); }
+.ja { margin: 0; font-size: 1rem; font-weight: 500; overflow-wrap: anywhere; }
+.ja a { color: var(--muted); font-weight: 400; font-size: .85rem; text-decoration: underline; text-underline-offset: 2px; margin-left: 2px; }
+.orig { margin-top: 4px; }
+.orig summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; color: var(--muted); font-size: .78rem; user-select: none; }
+.orig summary::-webkit-details-marker { display: none; }
+.orig summary::before { content: "▼"; font-size: .65rem; display: inline-block; transform: rotate(-90deg); transition: transform .15s; }
+.orig[open] summary::before { transform: none; }
+.orig summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .orig summary::before { transition: none; } }
+.o { margin: 4px 0 0; color: var(--muted); font-size: .85rem; overflow-wrap: anywhere; }
+.empty { color: var(--muted); padding-block: 24px; }
+footer { margin-top: 20px; color: var(--muted); font-size: .75rem; }
+@media (max-width: 420px) { li.item { grid-template-columns: 1fr; gap: 2px; } }
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header>
+    <span class="live">LIVE</span>
+    <h1>深圳APEC速報</h1>
+    <p>首脳の動向を中国・ロシア・米国・韓国メディアから収集。時刻は北京時間。最終更新 <span id="upd">11/18 12:47</span></p>
+  </header>
+  <nav class="bar" aria-label="国で絞り込み">
+    <button type="button" id="f-all" data-c="" aria-pressed="true">すべて<span class="n"></span></button>
+    <button type="button" id="f-jp" data-c="日" aria-pressed="false">日本<span class="n"></span></button>
+    <button type="button" id="f-us" data-c="米" aria-pressed="false">米国<span class="n"></span></button>
+    <button type="button" id="f-ru" data-c="露" aria-pressed="false">ロシア<span class="n"></span></button>
+    <button type="button" id="f-kr" data-c="韓" aria-pressed="false">韓国<span class="n"></span></button>
+  </nav>
+  <ol id="list"></ol>
+  <footer>見出しは日本語訳。「▶ 原文」を押すと原文が開きます。（ ）内のメディア名から元記事へ。ロシア側報道（TASS）は中国側の発表と表現が異なる場合があります。</footer>
+</div>
+
+<script id="feed" type="application/json">[{"t": "03:00", "c": ["露"], "m": "新華社", "u": "https://english.news.cn/20261118/0d3f1eb05b2b48cda062af64c29a28b0/c.html", "ja": "プーチン大統領が深圳に到着。蔡奇・政治局常務委員が空港で出迎え", "o": "Putin was welcomed at the airport by Cai Qi, a member of the Standing Committee of the Political Bureau of the CPC Central Committee."}, {"t": "11:05", "c": ["韓"], "m": "新華社", "u": "https://www.news.cn/politics/leaders/20261118/23cc8dbef0c349db9c3197b3d1f1cce7/c.html", "ja": "【速報】習近平主席、韓国の李在明大統領と会見", "o": "新华社快讯：习近平会见韩国总统李在明"}, {"t": "11:18", "c": ["露"], "m": "香港01", "u": "https://www.hk01.com/%E5%8D%B3%E6%99%82%E5%9C%8B%E9%9A%9B/60411812/", "ja": "CCTVが「習近平氏は今朝プーチン氏と会う」と報道（香港01の速報による。CCTV原文は未確認）", "o": "央視報道，習近平今早將會晤普京"}, {"t": "11:40", "c": ["韓"], "m": "韓国経済新聞", "u": "https://www.hankyung.com/article/202611184500i", "ja": "韓国大統領府によると、李在明大統領と習主席の会談は現地時間11:03〜11:37の34分間。李氏は南北・米朝対話の再開へ中国の建設的役割を求めたとされる", "o": "청와대에 따르면 이 대통령은 18일 현지시간 오전 11시3분부터 11시37분까지 중국 선전에서 시 주석과 회담했다."}, {"t": "12:01", "c": ["露"], "m": "新華社", "u": "https://www.news.cn/politics/leaders/20261118/8613293c31b14f6eabf5c4940e94964e/c.html", "ja": "【速報】11月18日、習近平国家主席は深圳でロシアのプーチン大統領と会見した", "o": "新华社快讯：11月18日，国家主席习近平在深圳会见俄罗斯总统普京。"}, {"t": "12:03", "c": ["露"], "m": "新華社", "u": "https://www.news.cn/politics/leaders/20261118/6f518fbc55ff4d43a42cbfe177a6f1d1/c.html", "ja": "11月18日正午、習近平国家主席は深圳で、APEC首脳会議出席のため訪中したロシアのプーチン大統領と会見した", "o": "新华社深圳11月18日电（记者冯歆然、周强）11月18日中午，国家主席习近平在深圳会见来华出席亚太经合组织领导人非正式会议的俄罗斯总统普京。"}, {"t": "12:03", "c": ["露"], "m": "TASS", "u": "https://tass.ru/politika/28328883", "ja": "プーチン氏と習近平氏、APECの合間にロ中会談を開始", "o": "Путин и Си Цзиньпин на полях саммита АТЭС начали российско-китайские переговоры"}, {"t": "12:08", "c": ["露"], "m": "TASS", "u": "https://tass.ru/politika/28328903", "ja": "プーチン氏、習氏との会談でアジア太平洋の繁栄の確保をロ中の共通の目標と述べた", "o": "Путин на встрече с Си Цзиньпином назвал общей целью РФ и КНР обеспечение процветания АТР"}, {"t": "12:09", "c": ["露"], "m": "TASS", "u": "https://tass.ru/ekonomika/28328905", "ja": "プーチン氏「ロ中の貿易額は2026年に良好な伸びを示す」", "o": "Путин: товарооборот России и Китая покажет в 2026 году хорошую динамику роста"}, {"t": "12:10", "c": ["露"], "m": "TASS", "u": "https://tass.ru/politika/28328913", "ja": "ロシアと中国は、より公正な世界秩序の形成という立場をとっている（プーチン氏）", "o": "Россия и Китай придерживаются подхода по формированию более справедливого мироустройства"}, {"t": "12:11", "c": ["露"], "m": "TASS", "u": "https://tass.ru/politika/28328917", "ja": "プーチン氏「国際舞台でのロ中の外交上の連携は安定して機能している」", "o": "Путин: внешнеполитическая связка России и Китая на международной арене работает стабильно"}, {"t": "12:15", "c": ["露"], "m": "TASS", "u": "https://tass.ru/mezhdunarodnaya-panorama/28328941", "ja": "習近平氏「中国とロシアは多極化した世界の形成を促進していく」", "o": "Си Цзиньпин: Китай и Россия будут способствовать формированию многополярного мира"}, {"t": "12:15", "c": ["露"], "m": "TASS", "u": "https://tass.ru/ekonomika/28328935", "ja": "習近平氏「中国はロシアとともにアジア太平洋の繁栄に取り組む用意がある」", "o": "Си Цзиньпин: Китай готов с вместе Россией трудиться над процветанием АТР"}, {"t": "12:15", "c": ["露"], "m": "TASS", "u": "https://tass.ru/politika/28328933", "ja": "プーチン氏「習近平氏との会談を心から喜んでいる」", "o": "Путин заявил, что искренне рад встрече с Си Цзиньпином"}, {"t": "12:15", "c": ["露", "米"], "m": "TASS", "u": "https://tass.com/politics/2220065", "ja": "プーチン氏、習氏・トランプ氏との3首脳会談から大きな成果を期待", "o": "Putin expects major benefits from upcoming meeting with Xi, Trump"}, {"t": "12:26", "c": ["露"], "m": "TASS", "u": "https://tass.ru/politika/28328949", "ja": "習近平氏「ロ中関係は山のように揺るぎないままだ」", "o": "Си Цзиньпин заявил, что отношения РФ и КНР остаются непоколебимыми, как гора"}, {"t": "12:26", "c": ["露"], "m": "TASS", "u": "https://tass.ru/mezhdunarodnaya-panorama/28328953", "ja": "習近平氏「ロ中は大国間の新しい型の関係の模範だ」", "o": "Си Цзиньпин назвал РФ и КНР образцом отношений нового типа между великими державами"}]</script>
+<script>
+(function () {
+  var items = JSON.parse(document.getElementById("feed").textContent);
+  items.sort(function (a, b) { return (b.d || "18") + b.t > (a.d || "18") + a.t ? 1 : -1; });
+  var list = document.getElementById("list");
+  var btns = Array.prototype.slice.call(document.querySelectorAll(".bar button"));
+  var current = "";
+  try { current = localStorage.getItem("apec-filter") || ""; } catch (e) {}
+  function el(tag, cls, text) { var x = document.createElement(tag); if (cls) x.className = cls; if (text != null) x.textContent = text; return x; }
+  function render() {
+    list.textContent = "";
+    var shown = items.filter(function (it) { return !current || it.c.indexOf(current) >= 0; });
+    if (!shown.length) { var e = el("li", "empty", "この国の速報はまだありません。"); list.appendChild(e); }
+    shown.forEach(function (it) {
+      var li = el("li", "item");
+      li.appendChild(el("div", "time", (it.d && it.d !== "18" ? it.d + "日 " : "") + it.t));
+      var b = el("div", "body");
+      var tags = el("div", "tags");
+      it.c.forEach(function (c) { tags.appendChild(el("span", "tag " + c, c)); });
+      b.appendChild(tags);
+      var ja = el("p", "ja", it.ja);
+      var a = el("a", null, it.m); a.href = it.u; a.target = "_blank"; a.rel = "noopener";
+      ja.appendChild(document.createTextNode("（")); ja.appendChild(a); ja.appendChild(document.createTextNode("）"));
+      b.appendChild(ja);
+      if (it.o) {
+        var det = el("details", "orig");
+        det.appendChild(el("summary", null, "原文"));
+        det.appendChild(el("p", "o", it.o));
+        b.appendChild(det);
+      }
+      li.appendChild(b);
+      list.appendChild(li);
+    });
+    btns.forEach(function (bt) {
+      var c = bt.getAttribute("data-c");
+      bt.setAttribute("aria-pressed", String(c === current));
+      bt.querySelector(".n").textContent = c ? items.filter(function (it) { return it.c.indexOf(c) >= 0; }).length : items.length;
+    });
+  }
+  btns.forEach(function (bt) {
+    bt.addEventListener("click", function () {
+      current = bt.getAttribute("data-c");
+      try { localStorage.setItem("apec-filter", current); } catch (e) {}
+      render();
+    });
+  });
+  render();
+})();
+</script>
+
+</body>
+</html>
