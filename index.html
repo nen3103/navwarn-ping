@@ -106,7 +106,7 @@ footer { margin-top: 20px; color: var(--muted); font-size: .75rem; }
   <header>
     <span class="live">LIVE</span>
     <h1>深圳APEC速報</h1>
-    <p>首脳の動向を中国・ロシア・米国・韓国メディアから収集。同じ人の続報は1件にまとめ、▶で過去分を表示。時刻は北京時間。最終確認 <span id="upd">11/19 11:44</span></p>
+    <p>首脳の動向を中国・ロシア・米国・韓国メディアから収集。同じ人の続報は1件にまとめ、▶で過去分を表示。時刻は北京時間。最終確認 <span id="upd">11/19 11:45</span></p>
     <p class="howto">見出しは日本語訳。「▶ 原文」を押すと原文が開きます。（ ）内のメディア名から元記事へ。</p>
   </header>
   <div class="layout">
@@ -160,8 +160,16 @@ footer { margin-top: 20px; color: var(--muted); font-size: .75rem; }
   var moreBtn = document.getElementById("more");
   function el(tag, cls, text) { var x = document.createElement(tag); if (cls) x.className = cls; if (text != null) x.textContent = text; return x; }
   function tl(it) { return (it.d && it.d !== "18" ? it.d + "日 " : "") + it.t; }
+  var KEEP = { "映像": "映像", "動画": "映像", "写真": "写真", "詳報": "詳報", "速報": "速報" };
+  function cleanJa(t) {
+    return t.replace(/^【([^】]*)】\s*/, function (_, tag) {
+      var out = [];
+      tag.split(/[・\/]/).forEach(function (k) { var v = KEEP[k.trim()]; if (v && out.indexOf(v) < 0) out.push(v); });
+      return out.length ? "【" + out.join("・") + "】" : "";
+    });
+  }
   function jaLine(it, cls) {
-    var ja = el("p", cls || "ja", it.ja);
+    var ja = el("p", cls || "ja", cleanJa(it.ja));
     var a = el("a", null, it.m); a.href = it.u; a.target = "_blank"; a.rel = "noopener";
     ja.appendChild(document.createTextNode("（")); ja.appendChild(a); ja.appendChild(document.createTextNode("）"));
     return ja;
